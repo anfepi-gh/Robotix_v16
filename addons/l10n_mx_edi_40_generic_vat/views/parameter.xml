@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">        
+        <!-- Parametro para definir si se puede pagar factura sin Contra-Recibo -->
+        <record model="ir.config_parameter" id="global_invoice_restrict_close_session_wh_invoices">               
+          <field name="key">global_invoice_restrict_close_session_wh_invoices</field> 
+          <field name="value">Y</field>              
+        </record>
+        
+    </data>
+</odoo>

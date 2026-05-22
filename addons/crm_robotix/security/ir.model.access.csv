@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+crm_lead_stages_changes_all_access,crm.lead.stages.changes,model_crm_lead_stages_changes,,1,1,1,1
+crm_leads_count_line_all_access,crm.leads.count.line,model_crm_leads_count_line,,1,1,1,1
+crm_leads_count_wizard_all_access,crm.leads.count.wizard,model_crm_leads_count_wizard,,1,1,1,1
+crm_stage_next_auto_wizard_all_access,crm.stage.next.auto.wizard,model_crm_stage_next_auto_wizard,,1,1,1,1
+crm_leads_won_analisis_line_all_access,crm.leads.won.analisis.line,model_crm_leads_won_analisis_line,,1,1,1,1
+crm_leads_won_analisis_wizard_all_access,crm.leads.won.analisis.wizard,model_crm_leads_won_analisis_wizard,,1,1,1,1

@@ -1,0 +1,17 @@
+<odoo>
+     <!-- Customizing CRM -->
+    <record model="ir.ui.view" id="sales_team_lead_extend_inherit">
+        <field name="name">sales.team.inherit.view</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <field name="stage_id" position="replace">
+                <field name="stage_id" widget="statusbar" class="o_field_statusbar" options="{'clickable': '1', 'fold_field': 'fold'}" domain="[('id', 'in', allow_stage_ids)]" attrs="{'invisible': ['|', ('active', '=', False), ('type', '=', 'lead')]}"/>
+            </field>
+            <field name="type" position="after">
+                <field name="allow_stage_ids" widget="many2many_tags" readonly="1" invisible="1"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

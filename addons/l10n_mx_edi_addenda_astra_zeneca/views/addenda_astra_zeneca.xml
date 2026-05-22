@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <template id="complement_edi_40_addenda_astra_zeneca" inherit_id="l10n_mx_edi_40.cfdiv40">
+            <!-- Ajustes Dinamicos para el cambio de los conceptos -->
+            <xpath expr="//*[name()='cfdi:Concepto']" position="attributes">
+                <t t-if="record.addenda_type == 'astra_zeneca'" xmlns:cfdi="http://www.sat.gob.mx/cfd/4">
+                    <attribute name="t-att-NoIdentificacion">line.no_identificacion_astra_zeneca or False</attribute>
+                </t>
+            </xpath>
+        </template>
+
+        <template id="l10n_mx_edi_addenda_astra_zeneca" name="Addenda Astrazeneca">
+            <!-- <t t-set="sumary" t-value="record.getAddendaSumary()" /> -->
+            <t t-set="sale_model" t-value="'sale_line_ids' in record.invoice_line_ids._fields"/>
+            <t t-set="sale_id" t-value="record.mapped('invoice_line_ids.sale_line_ids.order_id') if sale_model else False"/>
+            <t t-set="pickings" t-value="sale_id.picking_ids.filtered(lambda x: x.state == 'done' and x.date_done)" />
+            <AddendaLineas>
+                <t t-foreach="record.invoice_line_ids" t-as="line">
+                    <AddendaLinea t-att-NoIdentificacion="line.no_identificacion_astra_zeneca" t-att-NumeroDeDocumentoDeLaOrdenDeCompra="line.move_id.orden_compra_astra_zeneca" t-if="line.product_id"/>
+                </t>
+            </AddendaLineas>
+
+        </template>
+
+        <record id="l10n_mx_edi_addenda_astra_zeneca" model="ir.ui.view">
+            <field name="l10n_mx_edi_addenda_flag">True</field>
+        </record>
+
+    </data>
+</odoo>

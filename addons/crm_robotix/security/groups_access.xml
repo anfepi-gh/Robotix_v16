@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+    <record id="access_extra_fits_report_contact" model="res.groups">
+        <field name="name">Reportes - Acceso Menu Comercial</field>
+    </record>
+
+    </data>
+</odoo>
