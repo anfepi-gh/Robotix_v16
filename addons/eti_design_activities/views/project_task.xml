@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="eti_project_task_view" model="ir.ui.view">
+        <field name="name">eti.project.task.view</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='user_ids']" position="after">
+                <field name="product_id"/>
+                <field name="client_id"/>
+            </xpath>
+            <xpath expr="//field[@name='tag_ids']" position="after">
+                <field name="task_type_id"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

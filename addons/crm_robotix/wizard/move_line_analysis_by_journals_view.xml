@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <!-- Asistente -->
+        <record id="view_move_line_analysis_wizard_form" model="ir.ui.view">
+            <field name="name">move.line.analysis.wizard.form</field>
+            <field name="model">move.line.analysis.wizard</field>
+            <field name="priority">2</field>
+            <field name="arch" type="xml">
+                <form string="Análisis de Lineas de Facturas" reate="false" edit="false">
+                    <sheet >
+                        <separator colspan="4" string="Presiona el boton para Generar el Reporte"/>
+                        <group>
+                            <field name="start_date" required="1"/>
+                            <field name="end_date" required="1"/>
+                            <field name="company_ids" options="{'no_create':True,'no_create_edit':True}" required="1" widget="many2many_tags"/>
+                        </group>
+                        
+                    </sheet>
+                    <footer>
+                        <center>
+                            <button name="execute_report" string="Generar" type="object" icon="fa-file-excel-o"/>
+                            o
+                            <button string="Cancelar" class="oe_link" special="cancel" icon="fa-window-close"/>
+                        </center>
+                    </footer>
+
+
+                </form>
+            </field>
+        </record>
+
+
+
+    <!-- ACCION PARA WIZARD -->
+    <record id="action_move_line_analysis_wizard" model="ir.actions.act_window">
+        <field name="name">Análisis de Lineas de Facturas</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">move.line.analysis.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_move_line_analysis_wizard_form"/>
+        <field name="target">new</field>
+        <!-- <field name="binding_model_id" ref="purchase.model_purchase_order"/> -->
+    </record>
+
+    <menuitem name="Análisis de Lineas de Facturas" action="action_move_line_analysis_wizard" id="menu_move_line_analysis_wizard" parent="account_menu_reports_cava.account_cava_wizard_menu_root" sequence="1"/>
+
+
+    <!-- Herencia  Partner -->
+
+    <record id="res_partner_report_analysis_extension_form" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page string="Comercial">
+                    <group>
+                        <group>
+                            <field name="plan_hotel_id" />
+                            <field name="partner_group_id" />
+                            <field name="is_driver" widget="boolean_toggle"/>
+                            <field name="driver_id" attrs="{'invisible':[('is_driver','=',False)],'required':[('is_driver','=',True)]}" options="{'no_create':True,'no_create_edit':True}"/>
+                            <field name="is_salesman_manager" widget="boolean_toggle"/>
+                            <field name="salesman_id" attrs="{'invisible':[('is_salesman_manager','=',False)],'required':[('is_salesman_manager','=',True)]}" options="{'no_create':True,'no_create_edit':True}"/>
+                            <field name="is_salesman_collection" widget="boolean_toggle"/>
+                            <field name="collection_id" attrs="{'invisible':[('is_salesman_collection','=',False)],'required':[('is_salesman_collection','=',True)]}" options="{'no_create':True,'no_create_edit':True}"/>
+                        </group>
+                        <group>
+                            <field name="city_operation_work" />
+                            <field name="financial_branch_id" />
+                            <field name="comercial_channel_id" />
+                            <field name="comercial_subchannel_id" />
+                            <field name="consumption_segment_id" />
+                        </group>
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+    <!-- Herencia Diarios -->
+
+    <record id="account_journal_report_analysis_extension_form" model="ir.ui.view">
+        <field name="name">account.journal.form.inherit</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form"/>
+        <field name="arch" type="xml">
+            <field name="type" position="after">
+                    <field name="report_invoice_line_access" />
+            </field>
+        </field>
+    </record>
+
+    <!-- Catalogo -->
+
+
+    <!-- Ultima Consulta -->
+
+    <record id="move_line_analysis_by_journals_tree_view" model="ir.ui.view">
+        <field name="name">move.line.analysis.by.journals.view</field>
+        <field name="model">move.line.analysis.by.journals</field>
+        <field name="arch" type="xml">
+            <tree string="Análisis de Lineas de Facturas" editable="bottom" create="false" edit="false" delete="false">
+                <field name="nombre_partner" optional="show" />
+                <field name="rfc_partner" optional="show" />
+                <field name="nombre_comercial" optional="show" />
+
+                <field name="factura_id" optional="hide" />
+                <field name="numero_factura" optional="show" />
+                <field name="fecha_factura" optional="show" />
+                <field name="tipo_documento" optional="hide" />
+                <field name="diario" optional="hide" />
+                <field name="total_factura" optional="show" />
+
+                <field name="origen_factura" optional="show" />
+                <field name="tipo_venta" optional="hide" />
+
+                <field name="referencia_interna_producto" optional="show" />
+                <field name="descripcion_producto" optional="hide" />
+                <field name="nombre_producto" optional="show" />
+                <field name="codigo_barras_producto" optional="show" />
+                <field name="cantidad_producto" optional="show" />
+
+                <field name="precio_unitario_sin_impuestos" optional="show" />
+                <field name="monto_ieps" optional="show" />
+                <field name="porcentaje_ieps" optional="hide" />
+                <field name="monto_iva" optional="show" />
+                <field name="porcentaje_iva" optional="hide" />
+
+                <field name="precio_unitario" optional="show" />
+                <field name="subtotal" optional="hide" />
+                <field name="base_sin_impuestos" optional="hide" />
+                <field name="impuestos_en_linea" optional="show" />
+                <field name="monto_total" optional="show" />
+
+                <field name="nombre_categoria_producto" optional="show" />
+
+                <field name="nombre_branch" optional="show" />
+                <field name="plan_hotel" optional="show" />
+                <field name="ciudad_donde_opera" optional="show" />
+                <field name="grupo" optional="show" />
+                <field name="es_chofer" optional="hide" />
+                <field name="chofer" optional="show" />
+                <field name="es_ejecutivo_ventas" optional="hide" />
+                <field name="ejecutivo_ventas" optional="show" />
+                <field name="es_ejecutivo_cobranza" optional="hide" />
+                <field name="ejecutivo_cobranza" optional="show" />
+                <field name="unidad_financiera" optional="show" />
+                <field name="canal" optional="show" />
+                <field name="subcanal" optional="show" />
+                <field name="segmento_de_consumo" optional="show" />
+
+                <field name="tipo_operacion" optional="show" />
+                <field name="factura_linea_id" optional="show" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="move_line_analysis_by_journals_form_view" model="ir.ui.view">
+        <field name="name">move.line.analysis.by.journals.view</field>
+        <field name="model">move.line.analysis.by.journals</field>
+        <field name="arch" type="xml">
+            <form string="Análisis de Lineas de Facturas" editable="bottom" create="false" edit="false" delete="false">
+                <header>
+                    
+                </header>
+                <sheet>
+                    <group>
+                        <field name="nombre_partner"  />
+                        <field name="rfc_partner"  />
+                        <field name="nombre_comercial"  />
+
+                        <field name="factura_id"  />
+                        <field name="numero_factura"  />
+                        <field name="fecha_factura"  />
+                        <field name="tipo_documento"  />
+                        <field name="diario"  />
+                        <field name="total_factura"  />
+
+                        <field name="origen_factura"  />
+                        <field name="tipo_venta"  />
+
+                        <field name="referencia_interna_producto"  />
+                        <field name="descripcion_producto"  />
+                        <field name="nombre_producto"  />
+                        <field name="codigo_barras_producto"  />
+                        <field name="cantidad_producto"  />
+
+                        <field name="precio_unitario_sin_impuestos"  />
+                        <field name="monto_ieps"  />
+                        <field name="porcentaje_ieps"  />
+                        <field name="monto_iva"  />
+                        <field name="porcentaje_iva"  />
+
+                        <field name="precio_unitario"  />
+                        <field name="subtotal"  />
+                        <field name="base_sin_impuestos"  />
+                        <field name="impuestos_en_linea"  />
+                        <field name="monto_total"  />
+
+                        <field name="nombre_categoria_producto"  />
+
+                        <field name="nombre_branch"  />
+                        <field name="plan_hotel"  />
+                        <field name="ciudad_donde_opera"  />
+                        <field name="grupo"  />
+                        <field name="es_chofer"  />
+                        <field name="chofer" />
+                        <field name="es_ejecutivo_ventas"  />
+                        <field name="ejecutivo_ventas" />
+                        <field name="es_ejecutivo_cobranza"  />
+                        <field name="ejecutivo_cobranza" />
+                        <field name="unidad_financiera"  />
+                        <field name="canal"  />
+                        <field name="subcanal"  />
+                        <field name="segmento_de_consumo"  />
+
+                        <field name="tipo_operacion"  />
+                        <field name="factura_linea_id"  />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="move_line_analysis_by_journals_act" model="ir.actions.act_window">
+        <field name="name">Reporte de Lineas de Facturas</field>
+        <field name="res_model">move.line.analysis.by.journals</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <menuitem id="move_line_analysis_by_journals_menu_item"
+        action="move_line_analysis_by_journals_act"
+        parent="account_menu_reports_cava.account_cava_reports_menu_last_requests_root"
+        sequence="1"/>
+
+    <!-- Catalogos -->
+
+    <menuitem id="move_line_analysis_by_journals_menu_extra_fits_item" 
+        parent="contacts.menu_contacts" 
+        name="Comercial" 
+        sequence="500"  
+        groups="access_extra_fits_report_contact"/>
+
+
+
+    <!-- *Choferes* -->
+    <record id="partner_driver_man_tree_view" model="ir.ui.view">
+        <field name="name">partner.driver.man.view</field>
+        <field name="model">partner.driver.man</field>
+        <field name="arch" type="xml">
+            <tree string="Choferes" editable="bottom" >
+                <field name="name" optional="show" required="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="partner_driver_man_act" model="ir.actions.act_window">
+        <field name="name">Choferes</field>
+        <field name="res_model">partner.driver.man</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="partner_driver_man_act_menu"
+        action="partner_driver_man_act"
+        parent="move_line_analysis_by_journals_menu_extra_fits_item"
+        sequence="1"/>
+
+    <!-- *Ejecutivo de Ventas* -->
+
+    <record id="partner_salesman_manager_tree_view" model="ir.ui.view">
+        <field name="name">partner.salesman.manager.view</field>
+        <field name="model">partner.salesman.manager</field>
+        <field name="arch" type="xml">
+            <tree string="Ejecutivo de Ventas" editable="bottom" >
+                <field name="name" optional="show" required="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="partner_salesman_manager_act" model="ir.actions.act_window">
+        <field name="name">Ejecutivo de Ventas</field>
+        <field name="res_model">partner.salesman.manager</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="partner_salesman_manager_act_menu"
+        action="partner_salesman_manager_act"
+        parent="move_line_analysis_by_journals_menu_extra_fits_item"
+        sequence="2"/>
+
+    <!-- *Ejecutivo de Cobranza* -->
+
+    <record id="partner_collectio_manager_tree_view" model="ir.ui.view">
+        <field name="name">partner.collection.manager.view</field>
+        <field name="model">partner.collection.manager</field>
+        <field name="arch" type="xml">
+            <tree string="Ejecutivo de Cobranza" editable="bottom" >
+                <field name="name" optional="show" required="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="partner_collectio_manager_act" model="ir.actions.act_window">
+        <field name="name">Ejecutivo de Cobranza</field>
+        <field name="res_model">partner.collection.manager</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="partner_collectio_manager_act_menu" 
+        action="partner_collectio_manager_act" 
+        parent="move_line_analysis_by_journals_menu_extra_fits_item" 
+        sequence="3"/>
+
+
+    <!-- *Plan Hotel* -->
+
+    <record id="partner_plan_hotel_tree_view" model="ir.ui.view">
+        <field name="name">partner.plan.hotel.view</field>
+        <field name="model">partner.plan.hotel</field>
+        <field name="arch" type="xml">
+            <tree string="Plan Hotel" editable="bottom" >
+                <field name="name" optional="show" required="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="partner_plan_hotel_act" model="ir.actions.act_window">
+        <field name="name">Plan Hotel</field>
+        <field name="res_model">partner.plan.hotel</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="partner_plan_hotel_act_menu" 
+        action="partner_plan_hotel_act" 
+        parent="move_line_analysis_by_journals_menu_extra_fits_item" 
+        sequence="4"/>
+
+    <!-- *Grupos* -->
+
+    <record id="partner_segment_group_tree_view" model="ir.ui.view">
+        <field name="name">partner.segment.group.view</field>
+        <field name="model">partner.segment.group</field>
+        <field name="arch" type="xml">
+            <tree string="Grupos" editable="bottom" >
+                <field name="name" optional="show" required="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="partner_segment_group_act" model="ir.actions.act_window">
+        <field name="name">Grupos</field>
+        <field name="res_model">partner.segment.group</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="partner_segment_group_act_menu" 
+        action="partner_segment_group_act" 
+        parent="move_line_analysis_by_journals_menu_extra_fits_item" 
+        sequence="5"/>
+
+    <!-- *Unidad Financiera* -->
+
+    <record id="partner_financial_branch_tree_view" model="ir.ui.view">
+        <field name="name">partner.financial.branch.view</field>
+        <field name="model">partner.financial.branch</field>
+        <field name="arch" type="xml">
+            <tree string="Unidad Financiera" editable="bottom" >
+                <field name="name" optional="show" required="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="partner_financial_branch_act" model="ir.actions.act_window">
+        <field name="name">Unidad Financiera</field>
+        <field name="res_model">partner.financial.branch</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="partner_financial_branch_act_menu" 
+        action="partner_financial_branch_act" 
+        parent="move_line_analysis_by_journals_menu_extra_fits_item" 
+        sequence="6"/>
+
+    <!-- *Canal Comercial* -->
+
+    <record id="partner_channel_comercial_tree_view" model="ir.ui.view">
+        <field name="name">partner.channel.comercial.view</field>
+        <field name="model">partner.channel.comercial</field>
+        <field name="arch" type="xml">
+            <tree string="Canal Comercial" editable="bottom" >
+                <field name="name" optional="show" required="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="partner_channel_comercial_act" model="ir.actions.act_window">
+        <field name="name">Canal Comercial</field>
+        <field name="res_model">partner.channel.comercial</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="partner_channel_comercial_act_menu" 
+        action="partner_channel_comercial_act" 
+        parent="move_line_analysis_by_journals_menu_extra_fits_item" 
+        sequence="7"/>
+
+    <!-- *Subcanal Comercial* -->
+
+    <record id="partner_subchannel_comercial_tree_view" model="ir.ui.view">
+        <field name="name">partner.subchannel.comercial.view</field>
+        <field name="model">partner.subchannel.comercial</field>
+        <field name="arch" type="xml">
+            <tree string="Subcanal Comercial" editable="bottom" >
+                <field name="name" optional="show" required="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="partner_subchannel_comercial_act" model="ir.actions.act_window">
+        <field name="name">Subcanal Comercial</field>
+        <field name="res_model">partner.subchannel.comercial</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="partner_subchannel_comercial_act_menu" 
+        action="partner_subchannel_comercial_act" 
+        parent="move_line_analysis_by_journals_menu_extra_fits_item" 
+        sequence="8"/>
+
+    <!-- *Subcanal Comercial* -->
+
+    <record id="partner_consumption_segment_tree_view" model="ir.ui.view">
+        <field name="name">partner.consumption.segment.view</field>
+        <field name="model">partner.consumption.segment</field>
+        <field name="arch" type="xml">
+            <tree string="Segmento de Consumo" editable="bottom" >
+                <field name="name" optional="show" required="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="partner_consumption_segment_act" model="ir.actions.act_window">
+        <field name="name">Segmento de Consumo</field>
+        <field name="res_model">partner.consumption.segment</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="partner_consumption_segment_act_menu" 
+        action="partner_consumption_segment_act" 
+        parent="move_line_analysis_by_journals_menu_extra_fits_item" 
+        sequence="9"/>
+
+    </data>
+</odoo>

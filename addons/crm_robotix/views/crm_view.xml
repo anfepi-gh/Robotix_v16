@@ -1,0 +1,340 @@
+<odoo>
+     <!-- Customizing CRM -->
+    <record model="ir.ui.view" id="crm_robotix_extend_lead_form">
+        <field name="name">crm_robotix.inherit.view</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <field name="tag_ids" position="after">
+                <field name="date_won" readonly="1" force_save="1"/>
+                <field name="days_won" />
+                <field name="date_lost" readonly="1" force_save="1"/>
+                <field name="days_lost" />
+            </field>
+            <notebook position="inside">
+                <page string="Cambios de Etapa">
+                    <group>
+                        <group string="Etapa 01">
+                            <field name="team_first_workflow" readonly="1" string="Equipo de Ventas" force_save="1"/>
+                            <field name="team_first_workflow_date_won" readonly="1" string="Fecha Cierre" force_save="1"/>
+                        </group>
+                        <group string="Etapa 02">
+                            <field name="team_second_workflow" readonly="1" string="Equipo de Ventas" force_save="1"/>
+                            <field name="team_second_workflow_date_won" readonly="1" string="Fecha Cierre" force_save="1"/>
+                        </group>
+                    </group>
+                    <separator string="Control de Cambios de Etapa" />
+                    <field name="crm_changes_ids" colspan="4" readonly="1">
+                        <tree string="Cambios de Etapas" editable="bottom">
+                            <field name="previous_stage_id" />
+                            <field name="new_stage_id" />
+                            <field name="date" />
+                        </tree>
+                    </field>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="crm_robotix_extend_lead_tree">
+        <field name="name">crm_robotix.inherit.view</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_oppor"/>
+        <field name="arch" type="xml">
+            <field name="message_needaction" position="after">
+                <field name="date_won" optional="hide" />
+                <field name="days_won" optional="hide" />
+                <field name="date_lost" optional="hide" />
+                <field name="days_lost" optional="hide" />
+            </field>
+        </field>
+    </record>
+
+
+    <!-- <record model="ir.ui.view" id="crm_leads_target_monthly_extend_res_users">
+        <field name="name">crm_robotix.inherit.view</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form[1]/sheet[1]/div[not(@name)][2]/group[1]/field[@name='partner_id']" position="after">
+                <field name="x_studio_objetivo_facturacion_mes"/>
+            </xpath>
+        </field>
+    </record> -->
+
+    <record model="ir.ui.view" id="crm_leads_target_monthly_extend_crm_team">
+        <field name="name">crm_robotix.inherit.view</field>
+        <field name="model">crm.team</field>
+        <field name="inherit_id" ref="sales_team.crm_team_view_form"/>
+        <field name="arch" type="xml">
+            <field name="invoiced_target" position="attributes">
+                <attribute name="attrs">{'readonly':[('target_from_users','=',True)]}</attribute>
+            </field>
+            <notebook position="before">
+                <group>
+                    <group>
+                        <button name="update_target_monthly_from_users" string="Actualizar Objetivo" confirm="Esta acción tomara el campo objetivo mensual definido en cada usuario. Deseas continuar?" type="object" icon="fa-money" colspan="2"/>
+                    </group>
+                    <group>
+                        <field name="target_from_users" />
+                    </group>
+                </group>
+            </notebook>
+        </field>
+    </record>
+
+    <!-- Asistente Reporte -->
+    <record id="crm_leads_count_wizard_form" model="ir.ui.view">
+        <field name="name">crm.leads.count.wizard.form</field>
+        <field name="model">crm.leads.count.wizard</field>
+        <field name="priority">2</field>
+        <field name="arch" type="xml">
+            <form string="Análisis de Flujo CRM" reate="false" edit="false">
+                <sheet >
+                    <separator colspan="4" string="Presiona el boton para Generar el Análisis"/>
+                    <group>
+                        <field name="team_id" required="1" options="{'no_create': True,'no_create_edit': True}"/>
+                    </group>
+                    
+                </sheet>
+                <footer>
+                    <center>
+                        <button name="execute_report" string="Generar" type="object" icon="fa-list-alt"/>
+                        o
+                        <button string="Cancelar" class="oe_link" special="cancel" icon="fa-window-close"/>
+                    </center>
+                </footer>
+
+
+            </form>
+        </field>
+    </record>
+
+
+
+    <!-- ACCION PARA WIZARD -->
+    <record id="action_crm_leads_count_wizard" model="ir.actions.act_window">
+        <field name="name">Análisis de Flujo CRM</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">crm.leads.count.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="crm_leads_count_wizard_form"/>
+        <field name="target">new</field>
+        <!-- <field name="binding_model_id" ref="purchase.model_purchase_order"/> -->
+    </record>
+
+    <menuitem name="Análisis de Flujo CRM" action="action_crm_leads_count_wizard" id="menu_action_crm_leads_count_wizard" parent="crm.crm_menu_report" sequence="100"/>
+
+    <!-- Ultima Consulta -->
+
+    <record id="crm_leads_count_line_tree_view" model="ir.ui.view">
+        <field name="name">crm.leads.count.line.view</field>
+        <field name="model">crm.leads.count.line</field>
+        <field name="arch" type="xml">
+            <tree string="Análisis de Flujo CRM" editable="bottom" create="false" edit="false" delete="false">
+                <field name="stage_id" optional="show" />
+                <field name="leads_count" optional="show" sum="Total Iniciativas"/>
+                <field name="leads_percentage" optional="show" sum="Porcentaje Total" widget="percentage"/>
+                <field name="count_won" optional="hide" sum="Total Ganadas"/>
+                <field name="count_lost" optional="hide" sum="Total Perdidas"/>
+                <field name="team_id" optional="hide" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="crm_leads_count_line_form_view" model="ir.ui.view">
+        <field name="name">crm.leads.count.line.view</field>
+        <field name="model">crm.leads.count.line</field>
+        <field name="arch" type="xml">
+            <form string="Análisis de Flujo CRM" editable="bottom" create="false" edit="false" delete="false">
+                <header>
+                    
+                </header>
+                <sheet>
+                    <group>
+                        <field name="stage_id"  readonly="1"/>
+                        <field name="leads_count"  readonly="1"/>
+                        <field name="leads_percentage"  readonly="1"/>
+                        <field name="count_won"  readonly="1"/>
+                        <field name="count_lost"  readonly="1"/>
+                        <field name="team_id"  readonly="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="crm_leads_count_line_act" model="ir.actions.act_window">
+        <field name="name">Ultima Consulta</field>
+        <field name="res_model">crm.leads.count.line</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <!-- Asistente Salto Etapa -->
+    <record id="crm_stage_next_auto_wizard_form" model="ir.ui.view">
+        <field name="name">crm.stage.next.auto.wizard.form</field>
+        <field name="model">crm.stage.next.auto.wizard</field>
+        <field name="priority">2</field>
+        <field name="arch" type="xml">
+            <form string="Asignar nueva etapa" reate="false" edit="false">
+                <sheet >
+                    <separator colspan="4" string="Selecciona la etapa que se asignada automaticamente"/>
+                    <group>
+                        <field name="stage_id" required="1" options="{'no_create': True,'no_create_edit': True}"/>
+                    </group>
+                    
+                </sheet>
+                <footer>
+                    <center>
+                        <button name="execute_report" string="Asignar" type="object" icon="fa-list-alt"/>
+                        o
+                        <button string="Cancelar" class="oe_link" special="cancel" icon="fa-window-close"/>
+                    </center>
+                </footer>
+
+
+            </form>
+        </field>
+    </record>
+
+    <!-- ACCION PARA WIZARD -->
+    <record id="action_stage_next_auto_wizard" model="ir.actions.act_window">
+        <field name="name">Análisis de Flujo CRM</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">crm.stage.next.auto.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="crm_stage_next_auto_wizard_form"/>
+        <field name="target">new</field>
+        <!-- <field name="binding_model_id" ref="purchase.model_purchase_order"/> -->
+    </record>
+
+    <record model="ir.ui.view" id="crm_robotix_extend_stage_tree">
+        <field name="name">crm_robotix.inherit.view</field>
+        <field name="model">crm.stage</field>
+        <field name="inherit_id" ref="crm.crm_stage_tree"/>
+        <field name="arch" type="xml">
+            <field name="is_won" position="after">
+                <field name="linked_stage_name" optional="show" />
+                <field name="linked_stage_id" invisible="1" />
+                <button name='%(action_stage_next_auto_wizard)d' type='action' string="Etapa Automática"/>
+            </field>
+        </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="crm_robotix_extend_stage_form">
+        <field name="name">crm_robotix.inherit.view</field>
+        <field name="model">crm.stage</field>
+        <field name="inherit_id" ref="crm.crm_stage_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('oe_title')][last()]" position="before">
+                <div class="oe_button_box" name="button_box">
+                    <button name='%(action_stage_next_auto_wizard)d' type='action' icon="fa-pencil-square-o">
+                        Etapa Automática
+                    </button>
+                </div>
+            </xpath>
+            <field name="team_id" position="after">
+                <field name="linked_stage_id" attrs="{'invisible':[('linked_stage_id','=',False)]}" />
+            </field>
+        </field>
+    </record>
+
+
+    <!-- ============================= -->
+
+
+    <!-- Asistente Reporte -->
+    <record id="crm_leads_won_analisis_wizard_form" model="ir.ui.view">
+        <field name="name">crm.leads.won.analisis.wizard.form</field>
+        <field name="model">crm.leads.won.analisis.wizard</field>
+        <field name="priority">2</field>
+        <field name="arch" type="xml">
+            <form string="Análisis de Cumplimiento" reate="false" edit="false">
+                <sheet >
+                    <separator colspan="4" string="Presiona el boton para Generar el Análisis"/>
+                    <group>
+                        <field name="team_id" options="{'no_create': True,'no_create_edit': True}"/>
+                        <field name="start_date" required="1" />
+                        <field name="end_date" required="1" />
+                        <field name="type_date" required="1" />
+                    </group>
+                    
+                </sheet>
+                <footer>
+                    <center>
+                        <button name="execute_report" string="Generar" type="object" icon="fa-list-alt"/>
+                        o
+                        <button string="Cancelar" class="oe_link" special="cancel" icon="fa-window-close"/>
+                    </center>
+                </footer>
+
+
+            </form>
+        </field>
+    </record>
+
+
+
+    <!-- ACCION PARA WIZARD -->
+    <record id="action_crm_leads_won_analisis_wizard" model="ir.actions.act_window">
+        <field name="name">Análisis de Cumplimiento</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">crm.leads.won.analisis.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="crm_leads_won_analisis_wizard_form"/>
+        <field name="target">new</field>
+        <!-- <field name="binding_model_id" ref="purchase.model_purchase_order"/> -->
+    </record>
+
+    <menuitem name="Análisis de Cumplimiento" action="action_crm_leads_won_analisis_wizard" id="menu_action_crm_leads_won_analisis_wizard" parent="crm.crm_menu_report" sequence="101"/>
+
+    <!-- Ultima Consulta -->
+
+    <record id="crm_leads_won_analisis_line_tree_view" model="ir.ui.view">
+        <field name="name">crm.leads.won.analisis.line.view</field>
+        <field name="model">crm.leads.won.analisis.line</field>
+        <field name="arch" type="xml">
+            <tree string="Análisis de Cumplimiento" editable="bottom" create="false" edit="false" delete="false">
+                <field name="stage_id" optional="hide" />
+                <field name="team_id" optional="show" />
+                <field name="leads_count" optional="show" sum="Total Iniciativas"/>
+                <field name="amount_target_stage" optional="show" sum="Objetivo Total"/>
+                <field name="amount_target_real" optional="show" sum="Objetivo Cumplimiento Total"/>
+                <field name="target_percentage" optional="show" widget="percentage"/>
+                <field name="period" optional="show" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="crm_leads_won_analisis_line_form_view" model="ir.ui.view">
+        <field name="name">crm.leads.won.analisis.line.view</field>
+        <field name="model">crm.leads.won.analisis.line</field>
+        <field name="arch" type="xml">
+            <form string="Análisis de Cumplimiento" editable="bottom" create="false" edit="false" delete="false">
+                <header>
+                    
+                </header>
+                <sheet>
+                    <group>
+                        <field name="stage_id" />
+                        <field name="team_id" />
+                        <field name="leads_count" />
+                        <field name="amount_target_stage" />
+                        <field name="amount_target_real" />
+                        <field name="target_percentage" />
+                        <field name="period" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="crm_leads_won_analisis_line_act" model="ir.actions.act_window">
+        <field name="name">Ultima Consulta</field>
+        <field name="res_model">crm.leads.won.analisis.line</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

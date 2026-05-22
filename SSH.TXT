@@ -1,0 +1,3 @@
+user: usuario97775
+ip: 143.198.65.235
+password: AX0qU9za9mZ6Td
