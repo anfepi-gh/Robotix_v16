@@ -3,16 +3,11 @@
 #
 #    German Ponce
 
-import calendar
+import ast
+from datetime import datetime, timedelta
 
 from odoo import models, fields, api
-from odoo.tools import date_utils
-from odoo.http import request
 from odoo.exceptions import UserError
-
-from dateutil.relativedelta import relativedelta
-from datetime import datetime
-from odoo import SUPERUSER_ID
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -39,7 +34,7 @@ class CrmStageNextAutoWizard(models.TransientModel):
 
 
     def execute_report(self):
-        context = self._context
+        context = self.env.context
         stage_obj = self.env['crm.stage']
         active_ids = context.get('active_ids')
         for stage in stage_obj.browse(active_ids).sudo():
@@ -171,7 +166,7 @@ class CRMLead(models.Model):
 
     @api.onchange('stage_id')
     def onchange_stage_linked_new(self):
-        context = self._context
+        context = self.env.context
         trigger_onchange_set_won_applied = context.get('trigger_onchange_set_won_applied', False)
         _logger.info("\n############ trigger_onchange_set_won_applied (el cambio ya se aplico previo en el boton marcar como ganado): %s" % trigger_onchange_set_won_applied)
         if self.stage_id:

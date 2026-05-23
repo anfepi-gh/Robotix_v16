@@ -29,13 +29,12 @@
 
 
     """,
-    'version': '15.0.1.0.0',
+    'version': '19.0.1.0.0',
     'author': 'German Ponce Dominguez',
     'category': 'Hidden',
     'license': 'LGPL-3',
     'website': 'http://poncesoft.blogspot.com',
     'depends': [
-        'l10n_mx_edi_extended',
         'account',
         'sale',
         'l10n_mx_edi',

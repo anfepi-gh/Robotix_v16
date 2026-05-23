@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from datetime import timedelta
 from datetime import datetime
 
@@ -19,7 +19,7 @@ class EtiDesignActivities(models.TransientModel):
     #tomamos el producto que está activo
     product_id = fields.Many2one(
         comodel_name="product.product",
-        default=lambda self: self.env["product.product"].browse(self._context.get("active_id")),
+        default=lambda self: self.env["product.product"].browse(self.env.context.get("active_id")),
         readonly=True,
         required=True,
         string="Producto"

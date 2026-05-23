@@ -5,11 +5,11 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
-            <field name="vat" position="after" >
-                    <field name="complemento_leyendas_fiscales" />
+            <field name="vat" position="after">
+                <field name="complemento_leyendas_fiscales" />
             </field>
             <notebook position="inside">
-                <page string="Leyendas Fiscales" attrs="{'invisible':[('complemento_leyendas_fiscales','=',False)]}">
+                <page string="Leyendas Fiscales" invisible="not complemento_leyendas_fiscales">
                     <field name="leyendas_fiscales_ids">
                         <tree string="Leyendas Fiscales" editable="bottom">
                             <field name="disposicion" />
@@ -17,7 +17,6 @@
                             <field name="texto_leyenda" />
                         </tree>
                     </field>
-                    
                 </page>
             </notebook>
         </field>

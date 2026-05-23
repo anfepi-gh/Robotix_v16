@@ -8,7 +8,7 @@
 {
     'name' : 'Addenda PepsiCo',
     'category': 'Sales',
-    'version': '1.0',
+    'version': '19.0.1.0.0',
     'author': 'German Ponce Dominguez',
     'website': 'https://poncesoft.blogspot.com',
     'description': """

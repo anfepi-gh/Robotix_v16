@@ -17,6 +17,7 @@ def post_init_hook(cr, registry):
     # Obtener todos los leads
     lead_all = env['crm.lead'].search([('active','in',(True,False))])
     crm_stage_obj = env['crm.stage']
+    crm_stage = env['crm.stage']
     for lead in lead_all:
         date_won = False
         date_lost = False
@@ -40,9 +41,9 @@ def post_init_hook(cr, registry):
             date_message = message.date
             for tracking_msg in message.tracking_value_ids:
                 _logger.info("\n ***** tracking_msg: %s" % tracking_msg)
-                _logger.info("\n ***** tracking_msg.field: %s" % tracking_msg.field)
-                _logger.info("\n ***** tracking_msg.field.name: %s" % tracking_msg.field.name)
-                if tracking_msg.field and tracking_msg.field.name == 'stage_id':
+                _logger.info("\n ***** tracking_msg.field_id: %s" % tracking_msg.field_id)
+                _logger.info("\n ***** tracking_msg.field_id.name: %s" % tracking_msg.field_id.name)
+                if tracking_msg.field_id and tracking_msg.field_id.name == 'stage_id':
                     old_value_integer = tracking_msg.old_value_integer
                     new_value_integer = tracking_msg.new_value_integer
                     old_value_integer_exist = crm_stage.search([('id','=',old_value_integer)])
@@ -56,7 +57,7 @@ def post_init_hook(cr, registry):
                             if crm_stage_new_br.team_id:
                                 team_first_workflow = crm_stage_new_br.team_id.name
                             date_won = message.date
-                if tracking_msg.field and tracking_msg.field.name == 'active':
+                if tracking_msg.field_id and tracking_msg.field_id.name == 'active':
                     if tracking_msg.new_value_integer <= 0:
                         date_lost = message.date
             _logger.info("\n ########## tracking_field_stage_id: %s" % tracking_field_stage_id)

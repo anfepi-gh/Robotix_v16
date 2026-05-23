@@ -7,22 +7,19 @@
             <t t-set="sale_model" t-value="'sale_line_ids' in record.invoice_line_ids._fields"/>
             <t t-set="sale_id" t-value="record.mapped('invoice_line_ids.sale_line_ids.order_id') if sale_model else False"/>
             <t t-set="pickings" t-value="sale_id.picking_ids.filtered(lambda x: x.state == 'done' and x.date_done)" />
-            <requestForPayment 
+            <requestForPayment
                 type="SimpleInvoiceType"
                 contentVersion="1.3.1"
-                documentStructureVersion="AMC7.1" 
-                documentStatus="ORIGINAL" 
-                t-att-DeliveryDate="str(pickings[0].date_done)[0:10] if pickings else str(record.invoice_date)[0:10] ">
+                documentStructureVersion="AMC7.1"
+                documentStatus="ORIGINAL"
+                t-att-DeliveryDate="str(pickings[0].date_done)[0:10] if pickings else str(record.invoice_date)[0:10]">
                 <requestForPaymentIdentification>
-                    <entityType t-raw="'INVOICE' if record.move_type == 'out_invoice' else 'CREDIT_NOTE'"></entityType>
+                    <entityType t-out="'INVOICE' if record.move_type == 'out_invoice' else 'CREDIT_NOTE'"></entityType>
                     <uniqueCreatorIdentification t-esc="record.name.replace('/','').replace('_','')"></uniqueCreatorIdentification>
                 </requestForPaymentIdentification>
                 <specialInstruction code="ZZZ">
-                    <text t-raw="record._l10n_mx_edi_cfdi_amount_to_text()" ></text>
+                    <text t-out="record._l10n_mx_edi_cfdi_amount_to_text()"></text>
                 </specialInstruction>
-                <!--<specialInstruction code="AAB">
-                    <text><t t-esc="record.l10n_mx_edi_payment_policy" /></text>
-                </specialInstruction> -->
                 <orderIdentification>
                     <t t-if="record.l10n_mx_edi_amece_referenceidentification"><referenceIdentification type="ON"><t t-esc="record.l10n_mx_edi_amece_referenceidentification"/></referenceIdentification></t>
                     <t t-if="record.l10n_mx_edi_amece_referencedate"><ReferenceDate><t t-esc="record.l10n_mx_edi_amece_referencedate"/></ReferenceDate></t>
@@ -85,9 +82,6 @@
                                 <taxCategory>TRANSFERIDO</taxCategory>
                             </tradeItemTaxInformation>
                         </t>
-                        <!-- <AdditionalInformation>
-                            <referenceIdentification type="ON"><t t-esc="record.l10n_mx_edi_amece_referenceidentification" /></referenceIdentification>
-                        </AdditionalInformation> -->
                         <totalLineAmount>
                             <grossAmount>
                                 <Amount><t t-esc="grossPrice * line.quantity" /></Amount>

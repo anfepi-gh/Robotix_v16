@@ -1,14 +1,14 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 {
     'name': 'Complemento CFDI para Donaciones',
-    'version': '15.0.1.0.0',
+    'version': '19.0.1.0.0',
     "license": "LGPL-3",
     "author": "German Ponce Dominguez",
     'category': 'Hidden',
     'summary': 'Complementos CFDI',
     'depends': [
-        'l10n_mx_edi_extended',
-        'l10n_mx_edi_40',
+        'account',
+        'l10n_mx_edi',
     ],
     'data': [
         "data/donations.xml",
