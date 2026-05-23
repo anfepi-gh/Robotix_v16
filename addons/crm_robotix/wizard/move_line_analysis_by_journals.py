@@ -16,26 +16,14 @@
 #   / \
 # Cherman Seingalt - german.ponce@outlook.com
 
-from odoo import api, fields, models, _, tools, SUPERUSER_ID
+import ast
+from datetime import datetime, timedelta
+
+from odoo import api, fields, models, _, Command
 from odoo.exceptions import UserError
-from datetime import date, datetime, timedelta
 
 import logging
 _logger = logging.getLogger(__name__)
-
-from datetime import datetime, timedelta
-from dateutil.relativedelta import relativedelta
-import calendar
-####### TRABAJAR CON LOS EXCEL
-import base64
-import xlsxwriter
-import tempfile
-from xlsxwriter.utility import xl_rowcol_to_cell
-
-#OTROS
-import pytz
-import re
-import math
 
 #### Modelos ####
 class PartnerPlanHotel(models.Model):
@@ -202,7 +190,7 @@ class MoveLineAnalysisWizard(models.TransientModel):
     _description = "Asistente - Analisis de Lineas de Factura"
 
     def _get_company_defaults(self):
-        return [(6,0,self.env.companies.ids)]
+        return Command.set(self.env.companies.ids)
 
     #CAMPOS PARA GENERAR EL ARCHIVO
     datas_fname = fields.Char('File Name',size=256)

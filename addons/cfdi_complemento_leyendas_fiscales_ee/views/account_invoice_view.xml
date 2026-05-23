@@ -10,14 +10,14 @@
                 <field name="complemento_leyendas_fiscales"/>
             </xpath>
             <notebook position="inside">
-                <page string="Leyendas Fiscales" attrs="{'invisible':[('complemento_leyendas_fiscales','=',False)]}">
+                <page string="Leyendas Fiscales" invisible="not complemento_leyendas_fiscales">
                     <field name="leyendas_fiscales_ids">
                         <tree string="Leyendas Fiscales">
                             <field name="disposicion" />
                             <field name="norma" />
                             <field name="texto_leyenda" />
                         </tree>
-                        <form string="Leyenda Fiscal" >
+                        <form string="Leyenda Fiscal">
                             <group>
                                 <field name="disposicion" />
                                 <field name="norma" />
@@ -25,7 +25,6 @@
                             </group>
                         </form>
                     </field>
-                    
                 </page>
             </notebook>
         </field>

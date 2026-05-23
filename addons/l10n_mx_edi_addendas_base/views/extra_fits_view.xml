@@ -9,7 +9,7 @@
 		    <field name="arch" type="xml">
 		        <xpath expr="//notebook" position="inside">
 		        	<page string="Addendas" name="addendas_extra_fits">
-		        		
+
 		        	</page>
 		        </xpath>
 		    </field>
@@ -22,7 +22,7 @@
 		    <field name="arch" type="xml">
 		        <xpath expr="//notebook" position="inside">
 		        	<page string="Addendas" name="addendas_extra_fits">
-		        		
+
 		        	</page>
 		        </xpath>
 		    </field>
@@ -38,8 +38,8 @@
 		    		<field name="addenda_type"/>
 		    	</field>
 		        <xpath expr="//notebook" position="inside">
-		        	<page string="Addendas" name="addendas_extra_fits" attrs="{'invisible': [('addenda_type', '=', 'na')]}">
-		        		
+		        	<page string="Addendas" name="addendas_extra_fits" invisible="addenda_type == 'na'">
+
 		        	</page>
 		        </xpath>
 		    </field>
@@ -51,11 +51,11 @@
 		    <field name="inherit_id" ref="stock.view_picking_form"/>
 		    <field name="arch" type="xml">
 		    	<field name="backorder_id" position="after">
-		    		<field name="addenda_type" attrs="{'invisible': [('picking_type_code', '!=', 'outgoing')]}" />
+		    		<field name="addenda_type" invisible="picking_type_code != 'outgoing'"/>
 		    	</field>
 		        <xpath expr="//notebook" position="inside">
-		        	<page string="Addendas" name="addendas_extra_fits" attrs="{'invisible': [('addenda_type', '=', 'na')]}">
-		        		
+		        	<page string="Addendas" name="addendas_extra_fits" invisible="addenda_type == 'na'">
+
 		        	</page>
 		        </xpath>
 		    </field>
@@ -67,11 +67,13 @@
 		    <field name="inherit_id" ref="account.view_move_form"/>
 		    <field name="arch" type="xml">
 		    	<field name="payment_reference" position="after">
-		    		<field name="addenda_type" attrs="{'invisible': [('move_type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt'))], 'readonly': [('state', '=', 'done')]}"/>
+		    		<field name="addenda_type"
+		    		    invisible="move_type not in ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt')"
+		    		    readonly="state == 'posted'"/>
 		    	</field>
 		        <xpath expr="//notebook" position="inside">
-		        	<page string="Addendas" name="addendas_extra_fits" attrs="{'invisible': [('addenda_type', '=', 'na')]}">
-		        		
+		        	<page string="Addendas" name="addendas_extra_fits" invisible="addenda_type == 'na'">
+
 		        	</page>
 		        </xpath>
 		    </field>

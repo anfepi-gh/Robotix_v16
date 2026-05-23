@@ -68,7 +68,7 @@
         <field name="inherit_id" ref="sales_team.crm_team_view_form"/>
         <field name="arch" type="xml">
             <field name="invoiced_target" position="attributes">
-                <attribute name="attrs">{'readonly':[('target_from_users','=',True)]}</attribute>
+                <attribute name="readonly">target_from_users</attribute>
             </field>
             <notebook position="before">
                 <group>
@@ -236,7 +236,7 @@
                 </div>
             </xpath>
             <field name="team_id" position="after">
-                <field name="linked_stage_id" attrs="{'invisible':[('linked_stage_id','=',False)]}" />
+                <field name="linked_stage_id" invisible="not linked_stage_id" />
             </field>
         </field>
     </record>
