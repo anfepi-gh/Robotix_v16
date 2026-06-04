@@ -1,7 +1,3 @@
-# -*- coding: utf-8 -*-
-
-from lxml.objectify import fromstring
-
 from odoo import Command, api, fields, models
 from odoo.exceptions import UserError
 
@@ -31,24 +27,6 @@ class AccountMove(models.Model):
             self.leyendas_fiscales_ids = self.partner_id.leyendas_fiscales_ids
         return super()._onchange_partner_id()
 
-    def _l10n_mx_edi_decode_cfdi(self, cfdi_data=None):
-        """Adds leyendasFisc schemaLocation when the complement is present."""
-        result = super()._l10n_mx_edi_decode_cfdi(cfdi_data=cfdi_data)
-        if not cfdi_data:
-            return result
-        if not isinstance(cfdi_data, bytes):
-            cfdi_data = cfdi_data.encode()
-        cfdi_data = cfdi_data.replace(b'xmlns__leyendasFisc', b'xmlns:leyendasFisc')
-        cfdi = fromstring(cfdi_data)
-        if 'leyendasFisc' not in cfdi.nsmap:
-            return result
-        cfdi.attrib['{http://www.w3.org/2001/XMLSchema-instance}schemaLocation'] = '%s %s %s' % (
-            cfdi.get('{http://www.w3.org/2001/XMLSchema-instance}schemaLocation'),
-            'http://www.sat.gob.mx/leyendasFiscales',
-            'http://www.sat.gob.mx/sitio_internet/cfd/leyendasFiscales/leyendasFisc.xsd')
-        result['cfdi_node'] = cfdi
-        return result
-
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
@@ -60,6 +38,21 @@ class AccountMove(models.Model):
                         'complemento_leyendas_fiscales': True,
                     })
         return super().create(vals_list)
+
+    @api.depends('partner_id', 'complemento_leyendas_fiscales', 'leyendas_fiscales_ids')
+    def _compute_l10n_mx_edi_addenda_ids(self):
+        super()._compute_l10n_mx_edi_addenda_ids()
+        leyendas_addenda = self.env.ref(
+            'cfdi_complemento_leyendas_fiscales_ee.l10n_mx_edi_addenda_leyendas_fiscales',
+            raise_if_not_found=False,
+        )
+        if not leyendas_addenda:
+            return
+        for move in self:
+            if move.complemento_leyendas_fiscales and move.leyendas_fiscales_ids:
+                move.l10n_mx_edi_addenda_ids |= leyendas_addenda
+            else:
+                move.l10n_mx_edi_addenda_ids -= leyendas_addenda
 
 
 class ComplementoLeyendaFiscal(models.Model):

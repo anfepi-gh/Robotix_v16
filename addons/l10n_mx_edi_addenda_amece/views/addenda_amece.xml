@@ -114,9 +114,5 @@
             </requestForPayment>
         </template>
 
-        <record id="l10n_mx_edi_addenda_amece" model="ir.ui.view">
-            <field name="l10n_mx_edi_addenda_flag">True</field>
-        </record>
-
-    </data>
+</data>
 </odoo>

@@ -31,8 +31,5 @@
             </RequestCFD>
         </template>
     
-    <record id="l10n_mx_edi_addenda_pepsico" model="ir.ui.view">
-        <field name="l10n_mx_edi_addenda_flag">True</field>
-    </record>
-    </data>
+</data>
 </odoo>

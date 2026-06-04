@@ -1,4 +1,17 @@
 <odoo>
+    <!-- List view for crm.lead.stages.changes (extracted from inline to avoid v19 comodel validation issue) -->
+    <record id="crm_lead_stages_changes_list_view" model="ir.ui.view">
+        <field name="name">crm.lead.stages.changes.list</field>
+        <field name="model">crm.lead.stages.changes</field>
+        <field name="arch" type="xml">
+            <list string="Cambios de Etapas" editable="bottom">
+                <field name="previous_stage_id" />
+                <field name="new_stage_id" />
+                <field name="date" />
+            </list>
+        </field>
+    </record>
+
      <!-- Customizing CRM -->
     <record model="ir.ui.view" id="crm_robotix_extend_lead_form">
         <field name="name">crm_robotix.inherit.view</field>
@@ -24,13 +37,7 @@
                         </group>
                     </group>
                     <separator string="Control de Cambios de Etapa" />
-                    <field name="crm_changes_ids" colspan="4" readonly="1">
-                        <tree string="Cambios de Etapas" editable="bottom">
-                            <field name="previous_stage_id" />
-                            <field name="new_stage_id" />
-                            <field name="date" />
-                        </tree>
-                    </field>
+                    <field name="crm_changes_ids" colspan="4" readonly="1"/>
                 </page>
             </notebook>
         </field>
@@ -131,14 +138,14 @@
         <field name="name">crm.leads.count.line.view</field>
         <field name="model">crm.leads.count.line</field>
         <field name="arch" type="xml">
-            <tree string="Análisis de Flujo CRM" editable="bottom" create="false" edit="false" delete="false">
+            <list string="Análisis de Flujo CRM" editable="bottom" create="false" edit="false" delete="false">
                 <field name="stage_id" optional="show" />
                 <field name="leads_count" optional="show" sum="Total Iniciativas"/>
                 <field name="leads_percentage" optional="show" sum="Porcentaje Total" widget="percentage"/>
                 <field name="count_won" optional="hide" sum="Total Ganadas"/>
                 <field name="count_lost" optional="hide" sum="Total Perdidas"/>
                 <field name="team_id" optional="hide" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -296,7 +303,7 @@
         <field name="name">crm.leads.won.analisis.line.view</field>
         <field name="model">crm.leads.won.analisis.line</field>
         <field name="arch" type="xml">
-            <tree string="Análisis de Cumplimiento" editable="bottom" create="false" edit="false" delete="false">
+            <list string="Análisis de Cumplimiento" editable="bottom" create="false" edit="false" delete="false">
                 <field name="stage_id" optional="hide" />
                 <field name="team_id" optional="show" />
                 <field name="leads_count" optional="show" sum="Total Iniciativas"/>
@@ -304,7 +311,7 @@
                 <field name="amount_target_real" optional="show" sum="Objetivo Cumplimiento Total"/>
                 <field name="target_percentage" optional="show" widget="percentage"/>
                 <field name="period" optional="show" />
-            </tree>
+            </list>
         </field>
     </record>
 
