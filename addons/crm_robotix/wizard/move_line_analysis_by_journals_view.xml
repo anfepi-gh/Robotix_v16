@@ -103,7 +103,7 @@
         <field name="name">move.line.analysis.by.journals.view</field>
         <field name="model">move.line.analysis.by.journals</field>
         <field name="arch" type="xml">
-            <tree string="Análisis de Lineas de Facturas" editable="bottom" create="false" edit="false" delete="false">
+            <list string="Análisis de Lineas de Facturas" editable="bottom" create="false" edit="false" delete="false">
                 <field name="nombre_partner" optional="show" />
                 <field name="rfc_partner" optional="show" />
                 <field name="nombre_comercial" optional="show" />
@@ -155,7 +155,7 @@
 
                 <field name="tipo_operacion" optional="show" />
                 <field name="factura_linea_id" optional="show" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -253,9 +253,9 @@
         <field name="name">partner.driver.man.view</field>
         <field name="model">partner.driver.man</field>
         <field name="arch" type="xml">
-            <tree string="Choferes" editable="bottom" >
+            <list string="Choferes" editable="bottom" >
                 <field name="name" optional="show" required="1"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -276,9 +276,9 @@
         <field name="name">partner.salesman.manager.view</field>
         <field name="model">partner.salesman.manager</field>
         <field name="arch" type="xml">
-            <tree string="Ejecutivo de Ventas" editable="bottom" >
+            <list string="Ejecutivo de Ventas" editable="bottom" >
                 <field name="name" optional="show" required="1"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -299,9 +299,9 @@
         <field name="name">partner.collection.manager.view</field>
         <field name="model">partner.collection.manager</field>
         <field name="arch" type="xml">
-            <tree string="Ejecutivo de Cobranza" editable="bottom" >
+            <list string="Ejecutivo de Cobranza" editable="bottom" >
                 <field name="name" optional="show" required="1"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -323,9 +323,9 @@
         <field name="name">partner.plan.hotel.view</field>
         <field name="model">partner.plan.hotel</field>
         <field name="arch" type="xml">
-            <tree string="Plan Hotel" editable="bottom" >
+            <list string="Plan Hotel" editable="bottom" >
                 <field name="name" optional="show" required="1"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -346,9 +346,9 @@
         <field name="name">partner.segment.group.view</field>
         <field name="model">partner.segment.group</field>
         <field name="arch" type="xml">
-            <tree string="Grupos" editable="bottom" >
+            <list string="Grupos" editable="bottom" >
                 <field name="name" optional="show" required="1"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -369,9 +369,9 @@
         <field name="name">partner.financial.branch.view</field>
         <field name="model">partner.financial.branch</field>
         <field name="arch" type="xml">
-            <tree string="Unidad Financiera" editable="bottom" >
+            <list string="Unidad Financiera" editable="bottom" >
                 <field name="name" optional="show" required="1"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -392,9 +392,9 @@
         <field name="name">partner.channel.comercial.view</field>
         <field name="model">partner.channel.comercial</field>
         <field name="arch" type="xml">
-            <tree string="Canal Comercial" editable="bottom" >
+            <list string="Canal Comercial" editable="bottom" >
                 <field name="name" optional="show" required="1"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -415,9 +415,9 @@
         <field name="name">partner.subchannel.comercial.view</field>
         <field name="model">partner.subchannel.comercial</field>
         <field name="arch" type="xml">
-            <tree string="Subcanal Comercial" editable="bottom" >
+            <list string="Subcanal Comercial" editable="bottom" >
                 <field name="name" optional="show" required="1"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -438,9 +438,9 @@
         <field name="name">partner.consumption.segment.view</field>
         <field name="model">partner.consumption.segment</field>
         <field name="arch" type="xml">
-            <tree string="Segmento de Consumo" editable="bottom" >
+            <list string="Segmento de Consumo" editable="bottom" >
                 <field name="name" optional="show" required="1"/>
-            </tree>
+            </list>
         </field>
     </record>
 

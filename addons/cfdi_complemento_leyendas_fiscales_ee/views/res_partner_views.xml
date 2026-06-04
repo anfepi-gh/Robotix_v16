@@ -10,13 +10,7 @@
             </field>
             <notebook position="inside">
                 <page string="Leyendas Fiscales" invisible="not complemento_leyendas_fiscales">
-                    <field name="leyendas_fiscales_ids">
-                        <tree string="Leyendas Fiscales" editable="bottom">
-                            <field name="disposicion" />
-                            <field name="norma" />
-                            <field name="texto_leyenda" />
-                        </tree>
-                    </field>
+                    <field name="leyendas_fiscales_ids"/>
                 </page>
             </notebook>
         </field>

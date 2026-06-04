@@ -20,11 +20,11 @@
         <field name="name">complemento.leyenda.fiscal.view.tree</field>
         <field name="model">complemento.leyenda.fiscal</field>
         <field name="arch" type="xml">
-            <tree name="tree_fiscal_legend" string="Leyendas Fiscales">
+            <list name="tree_fiscal_legend" string="Leyendas Fiscales">
                 <field name="norma"/>
                 <field name="disposicion"/>
                 <field name="texto_leyenda"/>
-            </tree>
+            </list>
         </field>
     </record>
 </odoo>
