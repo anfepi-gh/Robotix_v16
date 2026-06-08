@@ -120,12 +120,13 @@ class CRMLead(models.Model):
     def action_set_won(self):
         for rec in self:
             rec.date_won = fields.Date.context_today(self)
-            if rec.stage_id and rec.stage_id.team_id:
+            # En v19, crm.stage usa team_ids (M2M); usamos el equipo del lead (rec.team_id)
+            if rec.stage_id and rec.team_id:
                 if not rec.team_first_workflow:
-                    rec.team_first_workflow = rec.stage_id.team_id.name
+                    rec.team_first_workflow = rec.team_id.name
                     rec.team_first_workflow_date_won = fields.Date.context_today(self)
                 else:
-                    rec.team_second_workflow = rec.stage_id.team_id.name
+                    rec.team_second_workflow = rec.team_id.name
                     rec.team_second_workflow_date_won = fields.Date.context_today(self)
         res = super(CRMLead, self.with_context(trigger_onchange_set_won_applied=True)).action_set_won()
 
@@ -134,7 +135,7 @@ class CRMLead(models.Model):
                 stage_obj = self.env['crm.stage'].sudo()
                 stage_br = stage_obj.browse(rec.stage_id.linked_stage_id)
                 rec.stage_id = stage_br.id
-                rec.team_id = stage_br.team_id.id if stage_br.team_id else False
+                rec.team_id = stage_br.team_ids[:1].id if stage_br.team_ids else False
 
         return res
 
@@ -173,19 +174,34 @@ class CRMLead(models.Model):
             if self.stage_id.is_won:
                 if not trigger_onchange_set_won_applied:
                     self.date_won = fields.Date.context_today(self)
-                    if self.stage_id and self.stage_id.team_id:
+                    # En v19, crm.stage usa team_ids (M2M); usamos el equipo del lead
+                    if self.stage_id and self.team_id:
                         if not self.team_first_workflow:
-                            self.team_first_workflow = self.stage_id.team_id.name
+                            self.team_first_workflow = self.team_id.name
                             self.team_first_workflow_date_won = fields.Date.context_today(self)
                         else:
-                            self.team_second_workflow = self.stage_id.team_id.name
+                            self.team_second_workflow = self.team_id.name
                             self.team_second_workflow_date_won = fields.Date.context_today(self)
 
             if self.stage_id.linked_stage_id:
                 stage_obj = self.env['crm.stage'].sudo()
                 stage_br = stage_obj.browse(self.stage_id.linked_stage_id)
                 self.stage_id = stage_br.id
-                self.team_id = stage_br.team_id.id if stage_br.team_id else False
+                self.team_id = stage_br.team_ids[:1].id if stage_br.team_ids else False
+
+    @api.model
+    def _read_group_stage_ids(self, stages, domain):
+        stages = super()._read_group_stage_ids(stages, domain)
+        user_teams = self.env['crm.team'].search([
+            '|',
+            ('member_ids.user_id', '=', self.env.uid),
+            ('user_id', '=', self.env.uid),
+        ])
+        if user_teams:
+            stages = stages.filtered(
+                lambda s: not s.team_id or s.team_id in user_teams
+            )
+        return stages
 
     @api.model
     def _automatic_update_invoice_target(self):

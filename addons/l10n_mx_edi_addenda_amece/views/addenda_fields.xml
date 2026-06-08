@@ -18,10 +18,10 @@
                         <separator string="Codigos AMECE 7.1 especificos por Cliente"/>
                         <newline/>
                         <field name="gtin_code_ids" nolabel="1">
-                            <tree string="Codigos AMECE 7.1" editable="bottom">
+                            <list string="Codigos AMECE 7.1" editable="bottom">
                                 <field name="partner_id" required="1" options="{'no_create':True, 'no_create_edit':True}"/>
                                 <field name="x_gtin_amece" required="1"/>
-                            </tree>
+                            </list>
                         </field>
                     </group>
                 </xpath>
@@ -46,11 +46,11 @@
                         <separator string="Codigos AMECE 7.1 especificos por Cliente"/>
                         <newline/>
                         <field name="gln_code_ids" nolabel="1">
-                            <tree string="Codigos AMECE 7.1" editable="bottom">
+                            <list string="Codigos AMECE 7.1" editable="bottom">
                                 <field name="partner_id" required="1" options="{'no_create':True, 'no_create_edit':True}"/>
                                 <field name="l10n_mx_edi_amece_alternateid" required="1"/>
                                 <field name="l10n_mx_edi_amece_gln" required="1"/>
-                            </tree>
+                            </list>
                         </field>
                     </group>
                 </xpath>
@@ -62,12 +62,10 @@
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="l10n_mx_edi.l10n_mx_edi_inh_res_partner_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//page[@name='addenda']" position="inside">
-                    <group name="amece" string="Addenda AMECE 7.1">
+                <xpath expr="//group[@name='fiscal_information']" position="after">
+                    <group name="amece_partner" string="Addenda AMECE 7.1" invisible="'MX' not in fiscal_country_codes">
                         <group>
                             <field name="l10n_mx_edi_amece_gln"/>
-                        </group>
-                        <group>
                         </group>
                     </group>
                 </xpath>

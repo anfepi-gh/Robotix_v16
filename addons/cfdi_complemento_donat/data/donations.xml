@@ -1,5 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- Desactivar el template QWeb v16 que heredaba cfdiv40 directamente.
+         En v19 usamos la arquitectura l10n_mx_edi.addenda en su lugar. -->
+    <record id="donations_40" model="ir.ui.view">
+        <field name="active" eval="False"/>
+    </record>
+
     <record id="l10n_mx_edi_addenda_donatarias" model="l10n_mx_edi.addenda">
         <field name="name">Complemento Donatarias</field>
         <field name="arch"><![CDATA[

@@ -54,8 +54,9 @@ def post_init_hook(cr, registry):
                         tracking_field_stage_id = True
                         crm_stage_new_br = crm_stage_obj.browse(new_value_integer)
                         if crm_stage_new_br.is_won:
-                            if crm_stage_new_br.team_id:
-                                team_first_workflow = crm_stage_new_br.team_id.name
+                            # En v19, crm.stage usa team_ids (M2M)
+                            if crm_stage_new_br.team_ids:
+                                team_first_workflow = crm_stage_new_br.team_ids[:1].name
                             date_won = message.date
                 if tracking_msg.field_id and tracking_msg.field_id.name == 'active':
                     if tracking_msg.new_value_integer <= 0:

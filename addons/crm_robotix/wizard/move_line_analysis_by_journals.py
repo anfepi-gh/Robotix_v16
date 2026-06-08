@@ -516,7 +516,7 @@ update move_line_analysis_by_journals
             'name': _('Análisis de Lineas de Factura'),
             'view_mode': 'tree,form',
             'view_type': 'form',
-            'context': {'tree_view_ref': 'account_invoice_line_analysis.move_line_analysis_by_journals_tree_view'},
+            'context': {'tree_view_ref': 'crm_robotix.move_line_analysis_by_journals_tree_view'},
             'res_model': 'move.line.analysis.by.journals',
             'type': 'ir.actions.act_window'
             }
