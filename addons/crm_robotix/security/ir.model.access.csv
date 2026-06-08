@@ -5,3 +5,14 @@ crm_leads_count_wizard_all_access,crm.leads.count.wizard,model_crm_leads_count_w
 crm_stage_next_auto_wizard_all_access,crm.stage.next.auto.wizard,model_crm_stage_next_auto_wizard,,1,1,1,1
 crm_leads_won_analisis_line_all_access,crm.leads.won.analisis.line,model_crm_leads_won_analisis_line,,1,1,1,1
 crm_leads_won_analisis_wizard_all_access,crm.leads.won.analisis.wizard,model_crm_leads_won_analisis_wizard,,1,1,1,1
+partner_plan_hotel_all_access,partner.plan.hotel,model_partner_plan_hotel,,1,1,1,1
+partner_segment_group_all_access,partner.segment.group,model_partner_segment_group,,1,1,1,1
+partner_financial_branch_all_access,partner.financial.branch,model_partner_financial_branch,,1,1,1,1
+partner_channel_comercial_all_access,partner.channel.comercial,model_partner_channel_comercial,,1,1,1,1
+partner_subchannel_comercial_all_access,partner.subchannel.comercial,model_partner_subchannel_comercial,,1,1,1,1
+partner_consumption_segment_all_access,partner.consumption.segment,model_partner_consumption_segment,,1,1,1,1
+partner_driver_man_all_access,partner.driver.man,model_partner_driver_man,,1,1,1,1
+partner_salesman_manager_all_access,partner.salesman.manager,model_partner_salesman_manager,,1,1,1,1
+partner_collection_manager_all_access,partner.collection.manager,model_partner_collection_manager,,1,1,1,1
+move_line_analysis_by_journals_all_access,move.line.analysis.by.journals,model_move_line_analysis_by_journals,,1,1,1,1
+move_line_analysis_wizard_all_access,move.line.analysis.wizard,model_move_line_analysis_wizard,,1,1,1,1

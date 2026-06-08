@@ -1,5 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- Desactivar template QWeb v16 que heredaba l10n_mx_edi_40.cfdiv40 directamente.
+         En v19 la addenda se registra como l10n_mx_edi.addenda en addenda_fields.xml. -->
+    <record id="complement_edi_40_addenda_astra_zeneca" model="ir.ui.view">
+        <field name="active" eval="False"/>
+    </record>
+
     <data noupdate="0">
 
 <template id="l10n_mx_edi_addenda_astra_zeneca" name="Addenda Astrazeneca">

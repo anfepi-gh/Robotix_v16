@@ -1,0 +1,23 @@
+# Dumps y respaldos de base de datos
+DUMP_V16/
+UPGRADED/
+DUMP_PROD/
+*.dump
+*.sql
+*.tar.gz
+*.zip
+
+# Filestore
+filestore/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.eggs/
+*.egg-info/
+
+# Editor
+.vscode/
+*.swp
+*.swo

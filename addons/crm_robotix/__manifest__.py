@@ -13,11 +13,12 @@
     'company': 'German Ponce Dominguez',
     'maintainer': 'german.ponce',
     'website': "https://www.anfepi.com",
-    'depends': ['base', 'crm', 'sale_management'],
+    'depends': ['base', 'crm', 'sale_management', 'account'],
     'data':[
                 "security/groups_access.xml",
                 "views/data.xml",
                 "views/crm_view.xml",
+                "wizard/move_line_analysis_by_journals_view.xml",
                 "security/ir.model.access.csv",
            ],
     # "external_dependencies": {

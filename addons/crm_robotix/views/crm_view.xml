@@ -232,6 +232,7 @@
 
     <record model="ir.ui.view" id="crm_robotix_extend_stage_form">
         <field name="name">crm_robotix.inherit.view</field>
+        <field name="active" eval="True"/>
         <field name="model">crm.stage</field>
         <field name="inherit_id" ref="crm.crm_stage_form"/>
         <field name="arch" type="xml">
@@ -242,7 +243,7 @@
                     </button>
                 </div>
             </xpath>
-            <field name="team_id" position="after">
+            <field name="is_won" position="after">
                 <field name="linked_stage_id" invisible="not linked_stage_id" />
             </field>
         </field>
