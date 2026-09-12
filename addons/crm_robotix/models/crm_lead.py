@@ -191,16 +191,29 @@ class CRMLead(models.Model):
 
     @api.model
     def _read_group_stage_ids(self, stages, domain):
+        # group_expand del Pipeline: define las COLUMNAS de etapa (incluye vacías).
+        # Objetivo: cada usuario ve el FLUJO COMPLETO de su(s) equipo(s), no solo las
+        # etapas donde ya tiene oportunidades. En Robotix todas las etapas tienen equipo
+        # (ninguna "sin equipo"), por lo que el nativo mostraba pipelines incompletos/vacíos.
         stages = super()._read_group_stage_ids(stages, domain)
+        Stage = self.env['crm.stage']
         user_teams = self.env['crm.team'].search([
             '|',
             ('member_ids.user_id', '=', self.env.uid),
             ('user_id', '=', self.env.uid),
         ])
         if user_teams:
-            stages = stages.filtered(
-                lambda s: not s.team_id or s.team_id in user_teams
-            )
+            # Etapas sin equipo + todas las del/los equipo(s) del usuario. v19: team_ids (M2M).
+            flow_stages = Stage.search([
+                '|', ('team_ids', '=', False), ('team_ids', 'in', user_teams.ids),
+            ])
+        else:
+            # Sin equipo: flujo completo (no plegado) para no dejar el pipeline vacío
+            # hasta que se le asigne un equipo.
+            flow_stages = Stage.search([('fold', '=', False)])
+        # Unir con el resultado nativo (que ya incluye etapas donde el usuario tiene
+        # registros) para no ocultar columnas con datos, y ordenar por secuencia.
+        stages = (stages | flow_stages).sorted(lambda s: (s.sequence, s.id))
         return stages
 
     @api.model
@@ -279,7 +292,7 @@ class CRMLeadsCountWizard(models.TransientModel):
         total_count = len(total_leads)  # Contar el total de registros de iniciativas
 
         # Obtener las iniciativas agrupadas por etapa
-        stages = self.env['crm.stage'].search([('team_id','=',self.team_id.id)])  # Obtener todas las etapas posibles
+        stages = self.env['crm.stage'].search([('team_ids','=',self.team_id.id)])  # v19: crm.stage usa team_ids (M2M)
         for stage in stages:
             # Obtener el número de iniciativas por etapa
             leads_in_stage = self.env['crm.lead'].search([('stage_id', '=', stage.id),('active','in',(True,False))])
